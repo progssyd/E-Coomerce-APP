@@ -6,7 +6,7 @@ import Footer from "./Components/Footer";
 import LandPage from "./Components/LandPage";
 import About from "./Components/About";
 import Callus from "./Components/Callus"; 
- 
+import ProductDetails from "./Components/ProductDetails";
 function App() {
   return (
     <BrowserRouter>
@@ -16,19 +16,10 @@ function App() {
         <Header />
 
         <Routes>
-
-          {/* الصفحة الرئيسية */}
           <Route path="/" element={<LandPage />} />
-
-          {/* صفحة حولنا */}
           <Route path="/about" element={<About />} />
-
-          {/* صفحة اتصل بنا */}
           <Route path="/callus" element={<Callus />} />
-
-          {/* تفاصيل المنتج */}
-          
-
+         <Route path="/product/:id" element={<ProductDetails />} />
         </Routes>
 
         <Footer />

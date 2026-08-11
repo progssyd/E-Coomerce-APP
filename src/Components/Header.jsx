@@ -1,4 +1,6 @@
-function Heeder() {
+import { Link } from "react-router-dom";
+
+function Header() {
   return (
     <nav
       className="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm sticky-top"
@@ -7,9 +9,13 @@ function Heeder() {
       <div className="container">
 
         {/* اسم التطبيق */}
-        <a className="navbar-brand fw-bold text-primary" href="#">
+        <Link
+          className="navbar-brand fw-bold text-primary"
+          to="/"
+        >
           E-Commerce
-        </a>
+        </Link>
+
 
         {/* زر القائمة في الجوال */}
         <button
@@ -24,30 +30,55 @@ function Heeder() {
           <span className="navbar-toggler-icon"></span>
         </button>
 
+
         {/* القائمة */}
-        <div className="collapse navbar-collapse" id="navbarNav">
+        <div
+          className="collapse navbar-collapse"
+          id="navbarNav"
+        >
 
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
 
+            {/* الرئيسية */}
             <li className="nav-item">
-              <a className="nav-link active" href="#">
+
+              <Link
+                className="nav-link"
+                to="/"
+              >
                 الرئيسية
-              </a>
+              </Link>
+
             </li>
 
+
+            {/* حولنا */}
             <li className="nav-item">
-              <a className="nav-link" href="#">
+
+              <Link
+                className="nav-link"
+                to="/about"
+              >
                 حولنا
-              </a>
+              </Link>
+
             </li>
 
+
+            {/* اتصل بنا */}
             <li className="nav-item">
-              <a className="nav-link" href="#">
+
+              <Link
+                className="nav-link"
+                to="/callus"
+              >
                 اتصل بنا
-              </a>
+              </Link>
+
             </li>
 
           </ul>
+
 
           {/* الأزرار */}
           <div className="d-flex align-items-center gap-2">
@@ -59,19 +90,20 @@ function Heeder() {
               English
             </button>
 
-            <a
-              href="#"
+            <Link
+              to="/login"
               className="btn btn-primary btn-sm px-3"
             >
               تسجيل الدخول
-            </a>
+            </Link>
 
           </div>
 
         </div>
+
       </div>
     </nav>
   );
 }
 
-export default Heeder;
+export default Header;

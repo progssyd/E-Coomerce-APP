@@ -3,28 +3,47 @@ import { useParams, Link } from "react-router-dom";
 
 function ProductDetails() {
 
-  // الحصول على رقم المنتج من الرابط
   const { id } = useParams();
 
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
 
     fetch(`https://fakestoreapi.com/products/${id}`)
-      .then((response) => response.json())
+      .then((response) => {
+
+        if (!response.ok) {
+          throw new Error("Product not found");
+        }
+
+        return response.json();
+      })
       .then((data) => {
+
         setProduct(data);
         setLoading(false);
+
+      })
+      .catch((error) => {
+
+        console.error(error);
+        setError(true);
+        setLoading(false);
+
       });
 
   }, [id]);
 
 
-  // أثناء تحميل المنتج
+  // Loading
   if (loading) {
     return (
-      <div className="container text-center py-5">
+      <div
+        className="container text-center py-5"
+        dir="rtl"
+      >
 
         <div
           className="spinner-border text-primary"
@@ -32,7 +51,7 @@ function ProductDetails() {
         ></div>
 
         <p className="mt-3">
-          جاري تحميل تفاصيل المنتج...
+          جاري تحميل المنتج...
         </p>
 
       </div>
@@ -40,10 +59,37 @@ function ProductDetails() {
   }
 
 
-  return (
-    <div className="container py-5" dir="rtl">
+  // Error
+  if (error || !product) {
+    return (
+      <div
+        className="container text-center py-5"
+        dir="rtl"
+      >
 
-      {/* العودة للمنتجات */}
+        <h3 className="text-danger">
+          عذراً، لم يتم العثور على المنتج
+        </h3>
+
+        <Link
+          to="/"
+          className="btn btn-primary mt-3"
+        >
+          العودة للمنتجات
+        </Link>
+
+      </div>
+    );
+  }
+
+
+  // Product Details
+  return (
+    <div
+      className="container py-5"
+      dir="rtl"
+    >
+
       <Link
         to="/"
         className="btn btn-outline-secondary mb-4"
@@ -56,7 +102,9 @@ function ProductDetails() {
 
         <div className="row g-0 align-items-center">
 
-          {/* صورة المنتج */}
+
+          {/* Product Image */}
+
           <div className="col-md-5 text-center">
 
             <img
@@ -65,6 +113,7 @@ function ProductDetails() {
               className="img-fluid p-5"
               style={{
                 height: "400px",
+                width: "100%",
                 objectFit: "contain"
               }}
             />
@@ -72,35 +121,34 @@ function ProductDetails() {
           </div>
 
 
-          {/* تفاصيل المنتج */}
+          {/* Product Information */}
+
           <div className="col-md-7">
 
             <div className="card-body p-5">
+
+              <span className="badge bg-secondary mb-3">
+                {product.category}
+              </span>
+
 
               <h1 className="fw-bold mb-3">
                 {product.title}
               </h1>
 
 
-              {/* التصنيف */}
-              <span className="badge bg-secondary mb-3">
-                {product.category}
-              </span>
-
-
-              {/* الوصف */}
               <p className="text-muted lh-lg">
                 {product.description}
               </p>
 
 
-              {/* السعر */}
               <h2 className="text-success fw-bold mb-4">
                 ${product.price}
               </h2>
 
 
-              {/* التقييم */}
+              {/* Rating */}
+
               <div className="mb-4">
 
                 <strong>
@@ -108,17 +156,16 @@ function ProductDetails() {
                 </strong>
 
                 <span className="ms-2">
-                  ⭐ {product.rating.rate}
+                  ⭐ {product.rating?.rate}
                 </span>
 
                 <span className="text-muted ms-2">
-                  ({product.rating.count} تقييم)
+                  ({product.rating?.count} تقييم)
                 </span>
 
               </div>
 
 
-              {/* زر إضافة للسلة */}
               <button className="btn btn-primary btn-lg px-5">
                 إضافة للسلة
               </button>
