@@ -1,4 +1,6 @@
-<footer class="bg-dark text-white py-4 mt-auto">
+function Footer() {
+  return (
+   <footer class="bg-dark text-white py-4 mt-auto">
   <div class="container">
     <div class="row gy-3 align-items-center">
       <div class="col-md-6 text-center text-md-start">
@@ -12,3 +14,6 @@
     </div>
   </div>
 </footer>
+  );
+}
+export default Footer;
